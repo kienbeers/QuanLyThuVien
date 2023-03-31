@@ -1,0 +1,98 @@
+<nav class="navbar navbar-light bg-default">
+    <div class="container">
+        <div class="d-flex">
+            <button class="btn btn-success" (click)="clickAdd()" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <span class="fe fe-plus"></span> Thêm</button>
+        </div>
+    </div>
+</nav>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Bạn đọc </th>
+            <th>Sách</th>
+            <th>Số lượng</th>
+            <th>Ngày mượn</th>
+            <th>Ngày trả</th>
+            <th>Trạng thái</th>
+            <th>Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let item of muonSach">
+        <tr>
+            <td> {{item.id}} </td>
+            <td> {{item.bd_id.ten}} </td>
+            <td> {{item.sach_id.ten}} </td>
+            <td> {{item.soLuong}} </td>
+            <td> {{item.ngayMuon | date}} </td>
+            <td> {{item.ngayTra}} </td>
+            <td> {{item.trangThai?'Không hoạt động':'Hoạt động'}} </td>
+            <td> {{item.ghichu}} </td>
+            <td>
+                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal"><span
+                        class="fe fe-edit" (click)="editMuonSach(item)" ></span></button>
+                <button class="btn btn-danger" (click)="deleteMuonSach(item.id)"> <span class="fe fe-trash"></span></button>
+            </td>
+        </tr>
+</table>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> {{checkText?'Thêm mượn sách':'Cập nhật'}} </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formGroup" (submit)="onSubmit()">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Bạn đọc</label>
+                        <select formControlName="bd_id" class="form-control">
+                            <option *ngFor="let item of banDoc" [value]="item.id">{{item.ten}}</option>
+                        </select>
+                        <span class="text-error" *ngIf="formGroup.controls['bd_id'].hasError('required') && formGroup.controls['bd_id'].touched">Vui lòng chọn bạn đọc!</span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Sách</label>
+                        <select formControlName="sach_id" class="form-control">
+                            <option *ngFor="let item of sachId" [value]="item.id">{{item.ten}}</option>
+                        </select>
+                        <span class="text-error" *ngIf="formGroup.controls['sach_id'].hasError('required') && formGroup.controls['sach_id'].touched">Vui lòng chọn sách!</span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Số lượng</label>
+                        <input type="number" formControlName="soLuong" class="form-control" id="1">
+                        <span class="text-error" *ngIf="formGroup.controls['soLuong'].hasError('required') && formGroup.controls['soLuong'].touched">Vui lòng nhập số lượng!</span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Ngày mượn</label>
+                        <input type="date" formControlName="ngayMuon" class="form-control" id="2">
+                        <span class="text-error" *ngIf="formGroup.controls['ngayMuon'].hasError('required') && formGroup.controls['ngayMuon'].touched">Vui lòng nhập ngày mượn!</span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Ngày trả</label>
+                        <input type="date" formControlName="ngayTra" class="form-control" id="3">
+                        <span class="text-error" *ngIf="formGroup.controls['ngayTra'].hasError('required') && formGroup.controls['ngayTra'].touched">Vui lòng nhập ngày trả!</span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Trạng thái</label>
+                        <input type="radio" formControlName="trangThai" checked [value]="0" > Hoạt động
+                        <input type="radio" formControlName="trangThai" [value]="1"> Không hoạt động
+                        <span class="text-error" *ngIf="formGroup.controls['trangThai'].hasError('required') && formGroup.controls['trangThai'].touched">Vui lòng chọn trạng thái!</span>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Ghi chú</label>
+                        <textarea type="date" formControlName="ghichu" class="form-control" id="4"></textarea>
+                    </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><span
+                        class="fe fe-x"></span></button>
+                <button type="submit" class="btn btn-primary"> {{checkButton?'Thêm':'Cập nhật'}} </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>

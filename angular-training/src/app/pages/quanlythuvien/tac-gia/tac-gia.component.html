@@ -1,0 +1,75 @@
+<nav class="navbar navbar-light bg-default">
+    <div class="container">
+      <div class="d-flex">
+        <button class="btn btn-success" (click)="clickAdd()"  data-bs-toggle="modal" data-bs-target="#exampleModal"> <span class="fe fe-plus"></span> Thêm</button>
+      </div>
+    </div>
+  </nav>
+  <table class="table" >
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Mã tác giả </th>
+      <th>Tên tác giả</th>
+      <th>Địa chỉ</th>
+      <th>SĐT</th>
+      <th>Mô tả</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let item of getTacGia">
+    <tr>
+      <td> {{item.id}}  </td>
+      <td> {{item.ma}} </td>
+      <td> {{item.ten}} </td>
+      <td> {{item.diaChi}} </td>
+      <td> {{item.sdt}} </td>
+      <td> {{item.moTa}} </td>
+      <td>
+        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editTacGia(item)" ><span class="fe fe-edit"></span> </button>
+        <button class="btn btn-danger" (click)="deleteTacGia(item.id)" > <span class="fe fe-trash"></span></button>
+      </td>
+    </tr>
+  </table>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{checkText?'Thêm tác giả':'Cập nhật tác giả'}}  </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formGroup" (submit)="onSubmit()">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Mã tác giả</label>
+              <input type="text" formControlName="ma" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <span class="text-error" *ngIf="formGroup.controls['ma'].hasError('required') && formGroup.controls['ma'].touched">Vui lòng nhập mã</span>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Tên tác gỉa</label>
+              <input type="text" formControlName="ten" class="form-control" id="exampleInputPassword1">
+              <span class="text-error" *ngIf="formGroup.controls['ten'].hasError('required') && formGroup.controls['ten'].touched">Vui lòng nhập tên tác giả</span>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Địa chỉ</label>
+              <input type="email" formControlName="diaChi" class="form-control" id="1">
+              <span class="text-error" *ngIf="formGroup.controls['diaChi'].hasError('required') && formGroup.controls['diaChi'].touched">Vui lòng nhập địa chỉ</span>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Số điện thoại</label>
+              <input type="text" formControlName="sdt" class="form-control" id="3">
+              <span class="text-error" *ngIf="formGroup.controls['sdt'].hasError('required') && formGroup.controls['sdt'].touched">Vui lòng nhập số điện thoại</span>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Mô tả</label>
+                <textarea name="" id="" formControlName="moTa" class="form-control"></textarea>
+              </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><span class="fe fe-x"></span></button>
+                <button type="submit" class="btn btn-primary"> {{checkButton?'Thêm':'Cập nhật'}}</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

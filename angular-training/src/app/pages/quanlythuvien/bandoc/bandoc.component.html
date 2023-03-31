@@ -1,0 +1,95 @@
+<nav class="navbar navbar-light bg-default">
+    <div class="container">
+      <div class="d-flex">
+        <button class="btn btn-success" (click)="clickAdd()" data-bs-toggle="modal" data-bs-target="#exampleModal"> <span class="fe fe-plus"></span> Thêm</button>
+      </div>
+    </div>
+  </nav>
+  <table class="table" >
+    <thead>
+    <tr>
+      <th> ID</th>
+      <th>Mã </th>
+      <th>Tên</th>
+      <th>Địa chỉ</th>
+      <th>SĐT</th>
+      <th>Ngày sinh</th>
+      <th>Ngày tạo</th>
+      <th>Hạng</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let item of banDoc" >
+    <tr>
+      <td> {{item.id}} </td>
+      <td> {{item.ma}} </td>
+      <td> {{item.ten}} </td>
+      <td> {{item.diaChi}} </td>
+      <td> {{item.sdt}} </td>
+      <td> {{item.ngaySinh | date}} </td>
+      <td> {{item.ngayTao | date}} </td>
+      <td> {{item.hang == 1?'Kim cương': item.hang == 2 ?'Vàng':item.hang==3?'Bạc':item.hang==4?'Đồng':item.hang==5?'Sắt':'Non'}} </td>
+      <td>
+        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editBanDoc(item)" ><span class="fe fe-edit"></span> </button>
+        <button class="btn btn-danger" (click)="deleteBanDoc(item.id)" > <span class="fe fe-trash"></span></button>
+      </td>
+    </tr>
+  </table>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> {{checkText?'Thêm bạn đọc':'Cập nhật'}} </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formGroup" (submit)="onSubmit()">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Mã bạn đọc</label>
+              <input type="text" formControlName="ma" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <span class="text-error" *ngIf="formGroup.controls['ma'].hasError('required') && formGroup.controls['ma'].touched">Vui lòng nhập mã</span>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Tên bạn đọc</label>
+              <input type="text" formControlName="ten" class="form-control" id="exampleInputPassword1">
+              <span class="text-error" *ngIf="formGroup.controls['ten'].hasError('required') && formGroup.controls['ten'].touched">Vui lòng nhập tên bạn đọc!</span>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Địa chỉ</label>
+              <input type="email" formControlName="diaChi" class="form-control" id="1">
+              <span class="text-error" *ngIf="formGroup.controls['diaChi'].hasError('required') && formGroup.controls['diaChi'].touched">Vui lòng nhập địa chỉ!</span>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Số điện thoại</label>
+              <input type="text" formControlName="sdt" class="form-control" id="2">
+              <span class="text-error" *ngIf="formGroup.controls['sdt'].hasError('required') && formGroup.controls['sdt'].touched">Vui lòng nhập số điện thoại</span>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Ngày sinh</label>
+              <input type="date" formControlName="ngaySinh" class="form-control" id="3">
+              <span class="text-error" *ngIf="formGroup.controls['ngaySinh'].hasError('required') && formGroup.controls['ngaySinh'].touched">Vui lòng nhập ngày sinh!</span>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Ngày tạo</label>
+                <input type="date" formControlName="ngayTao" class="form-control" id="4">
+                <span class="text-error" *ngIf="formGroup.controls['ngayTao'].hasError('required') && formGroup.controls['ngayTao'].touched">Vui lòng nhập ngày tạo</span>
+              </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Hạng</label>
+              <select class="form-select" formControlName="hang" aria-label="Default select example">
+                <option [value]="1">Kim cương</option>
+                <option [value]="2">Vàng</option>
+                <option [value]="3">Bạc</option>
+                <option [value]="4">Đồng</option>
+                <option [value]="5">Sắt</option>
+            </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><span class="fe fe-x"></span></button>
+                <button type="submit" class="btn btn-primary"> {{checkButton?'Thêm': 'Cập nhật'}}</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
